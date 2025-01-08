@@ -2,18 +2,30 @@ const Todo = require("../models/Todo");
 
 module.exports = {
   getTodo: async (req, res) => {
+    console.log(req.user);
     try {
-      const todoItems = await Todo.find();
-      const itemsLeft = await Todo.countDocuments({ completed: false });
+      const todoItems = await Todo.find({ userId: req.user.id });
+      const itemsLeft = await Todo.countDocuments({
+        userId: req.user.id,
+        completed: false,
+      });
 
-      res.render("todos.ejs", { todos: todoItems, left: itemsLeft });
+      res.render("todos.ejs", {
+        todos: todoItems,
+        left: itemsLeft,
+        user: req.user,
+      });
     } catch (err) {
       console.error(err);
     }
   },
   createTodo: async (req, res) => {
     try {
-      await Todo.create({ todo: req.body.todoItem, completed: false });
+      await Todo.create({
+        todo: req.body.todoItem,
+        completed: false,
+        userId: req.user.id,
+      });
       console.log("Todo Added");
       res.redirect("/todos");
     } catch (error) {
@@ -65,6 +77,7 @@ module.exports = {
         { _id: todoIdFromJS },
         {
           todo: todoItem,
+          completed: false,
         }
       );
       console.log("Todo Updated");
