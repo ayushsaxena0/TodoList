@@ -25,6 +25,10 @@ body {
     font-family: 'Montserrat', monospace, serif;
     background-image: url('../images/background.jpg');
     background-size: cover;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 
@@ -165,5 +169,26 @@ form>button:hover {
 .left-todo {
     color: #D4743F;
     margin-top: 30px;
-    font-size: 30px;
+    font-size: 26px;
+}
+
+.logout-btn {
+    width: 90px;
+    background-color: #FCC9C5;
+    padding: 10px 10px;
+    border-radius: 5px;
+    margin: 0px 20px 20px 0;
+    align-self: end;
+    text-align: center;
+}
+
+.logout-btn>a {
+    text-decoration: none;
+    color: #D4743F;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.logout-btn:hover {
+    background-color: #d1928e;
 }
