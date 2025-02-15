@@ -1,0 +1,12 @@
+h2 {
+    color: red;
+}
+
+.completed {
+    color: gray;
+    text-decoration: line-through;
+}
+
+.not {
+    text-decoration: underline;
+}
