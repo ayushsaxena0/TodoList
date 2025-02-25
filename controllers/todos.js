@@ -58,4 +58,19 @@ module.exports = {
       console.error(err);
     }
   },
+  editTodo: async (req, res) => {
+    const { todoIdFromJS, todoItem } = req.body;
+    try {
+      await Todo.findOneAndUpdate(
+        { _id: todoIdFromJS },
+        {
+          todo: todoItem,
+        }
+      );
+      console.log("Todo Updated");
+      res.json("Todo Updated");
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
