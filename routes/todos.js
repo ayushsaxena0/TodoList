@@ -5,9 +5,8 @@ const { ensureAuth } = require("../middleware/auth");
 
 router.get("/", ensureAuth, todosController.getTodo);
 router.post("/createTodo", todosController.createTodo);
-router.put("/markComplete", todosController.markComplete);
-router.put("/markIncomplete", todosController.markIncomplete);
-router.put("/editTodo", todosController.editTodo);
-router.delete("/deleteTodo", todosController.deleteTodo);
+router.put('/todoCompleted/:id/:completed', todosController.todoComplete)
+router.put("/editTodo/:id", todosController.editTodo);
+router.delete("/deleteTodo/:id", todosController.deleteTodo);
 
 module.exports = router;

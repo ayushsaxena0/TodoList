@@ -14,9 +14,9 @@ module.exports = {
   postLogin: (req, res, next) => {
     const validationErrors = [];
     if (!validator.isEmail(req.body.email))
-      validationErrors.push({ msg: "Please enter a valid email address." });
+      validationErrors.push({ message: "Please enter a valid email address." });
     if (validator.isEmpty(req.body.password))
-      validationErrors.push({ msg: "Password cannot be blank." });
+      validationErrors.push({ message: "Password cannot be blank." });
 
     if (validationErrors.length) {
       req.flash("errors", validationErrors);
@@ -37,10 +37,10 @@ module.exports = {
         req.logIn(user, (err) => {
           if (err) {
             console.error("Login Error:", err);
-            req.flash("errors", { msg: "Login Failed! Please try again." });
+            req.flash("errors", { message: "Login Failed! Please try again." });
             return res.redirect("/todos");
           }
-          req.flash("success", { msg: "Success! You are logged in." });
+          req.flash("success", { message: "Success! You are logged in." });
           return res.redirect(req.session.returnTo || "/todos");
         });
       })(req, res, next);
@@ -74,13 +74,13 @@ module.exports = {
     const validationErrors = [];
 
     if (!validator.isEmail(email))
-      validationErrors.push({ msg: "Please enter a valid email address." });
+      validationErrors.push({ message: "Please enter a valid email address." });
     if (!validator.isLength(password, { min: 8 }))
       validationErrors.push({
-        msg: "Password must be at least 8 characters long",
+        message: "Password must be at least 8 characters long",
       });
     if (password !== confirmPassword)
-      validationErrors.push({ msg: "Passwords do not match" });
+      validationErrors.push({ message: "Passwords do not match" });
 
     if (validationErrors.length) {
       req.flash("errors", validationErrors);
@@ -95,7 +95,8 @@ module.exports = {
 
       if (existingUser) {
         req.flash("errors", {
-          msg: "Account with that email address or username already exists.",
+          message:
+            "Account with that email address or username already exists.",
         });
         return res.redirect("../signup");
       }

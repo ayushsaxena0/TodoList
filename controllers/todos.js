@@ -4,7 +4,7 @@ module.exports = {
   getTodo: async (req, res) => {
     console.log(req.user);
     try {
-      const todoItems = await Todo.find({ userId: req.user.id });
+      const todoItems = await Todo.find({ userId: req.user.id }).sort({priority: 1});
       const itemsLeft = await Todo.countDocuments({
         userId: req.user.id,
         completed: false,
@@ -23,6 +23,7 @@ module.exports = {
     try {
       await Todo.create({
         todo: req.body.todoItem,
+        priority: req.body?.priority ? req.body.priority : 2,
         completed: false,
         userId: req.user.id,
       });
@@ -32,56 +33,39 @@ module.exports = {
       console.error(error);
     }
   },
-  markComplete: async (req, res) => {
+
+  todoComplete: async (req, res) => {
     try {
-      const data = await Todo.findOneAndUpdate(
-        { _id: req.body.todoIdFromJs },
-        {
-          completed: true,
-        }
-      );
-      console.log(data);
-      console.log("Marked Completed");
-      res.json("Marked Completed");
-    } catch (err) {
-      console.error(err);
+      const bool = req.params.completed === 'true' ? false : true;
+      const data = await Todo.findOneAndUpdate({ _id: req.params.id }, {completed: bool});
+      console.log(`Todo marked ${data.completed ? 'completed' : 'incomplete'}`);
+      res.redirect('/todos');
+    } catch (error) {
+      console.log('Todo Complete Error:', error);
     }
   },
-  markIncomplete: async (req, res) => {
-    try {
-      await Todo.findOneAndUpdate(
-        { _id: req.body.todoIdFromJs },
-        {
-          completed: false,
-        }
-      );
-      console.log("Marked Incompleted");
-      res.json("Marked Incompleted");
-    } catch (err) {
-      console.error(err);
-    }
-  },
+
   deleteTodo: async (req, res) => {
     try {
-      await Todo.findOneAndDelete({ _id: req.body.todoIdFromJs });
+      await Todo.findOneAndDelete({ _id: req.params.id });
       console.log("Todo Deleted");
-      res.json("Todo Deleted");
+      res.redirect('/todos');
     } catch (err) {
       console.error(err);
     }
   },
   editTodo: async (req, res) => {
-    const { todoIdFromJS, todoItem } = req.body;
     try {
       await Todo.findOneAndUpdate(
-        { _id: todoIdFromJS },
+        { _id: req.params.id },
         {
-          todo: todoItem,
+          todo: req.body.todoItem,
+          priority: req.body.priority,
           completed: false,
         }
       );
       console.log("Todo Updated");
-      res.json("Todo Updated");
+      res.redirect('/todos');
     } catch (err) {
       console.error(err);
     }
