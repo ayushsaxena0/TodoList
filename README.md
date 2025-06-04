@@ -4,7 +4,7 @@ A simple to-do list web application that helps users efficiently manage tasks. U
 
 **Live Project:** [TodoList](https://todolist-gc7w.onrender.com)
 
-![TodoList Preview](public/images/todolist-project-img.png)
+![TodoList Preview](public/images/todolist.png)
 
 ## How It's Made:
 
